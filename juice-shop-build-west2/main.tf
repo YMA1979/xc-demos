@@ -10,7 +10,7 @@ terraform {
 
 provider "aws" {
   region  = "eu-west-2"
-  shared_credentials_files = ["/Users/stobrien/.aws/credentials"]
+  shared_credentials_files = ["/Users/alajarmeh/.aws/credentials"]
   profile = "default"
 }
 
@@ -29,7 +29,7 @@ module "vpc" {
 
   tags = {
     Terraform = true
-    Environment = "ob1-vpc-teraform"
+    Environment = "${var.prefix}-vpc-teraform"
   }
 }
 
@@ -73,7 +73,7 @@ resource "aws_security_group" "f5" {
     cidr_blocks = ["0.0.0.0/0"]
   }
   tags = {
-    Name = "ob1-SecurityGroup1"
+    Name = "${var.prefix}-SecurityGroup1"
   }
 }
 
@@ -93,6 +93,6 @@ resource "aws_instance" "OB1-JuiceShop" {
   user_data = data.template_file.user_data.rendered
   security_groups = [ aws_security_group.f5.id ]
     tags = {
-    Name = "OB1-JuiceShop-West2"
+    Name = "${var.prefix}-JuiceShop-West2"
   }
 }
